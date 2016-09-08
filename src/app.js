@@ -3,7 +3,7 @@ let inactiveSquares = {};
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 24;
-const POS_TO_PIXEL = 50;
+const POS_TO_PIXEL = 40;
 const PIECE_START_X = 5;
 const PIECE_START_Y = -2;
 const PIECE_START_ORIENTATION = 0;
@@ -60,22 +60,31 @@ const isPieceActive = () => {
 }
 
 const mapActivePieceToInactiveSquares = () => {
-  const { orientation, position, x, y, color } = activePiece;
+  const { orientation, position, x, y, colorA, colorB } = activePiece;
 
   position[orientation].forEach(square => {
     const pos = [square[0] + x, square[1] + y]
-    inactiveSquares[pos] = color;
+    inactiveSquares[pos] = {
+      colorA,
+      colorB,
+    };
   })
 }
 
 const updateActivePiece = () => {
-  let { orientation, position, x, y, color } = activePiece;
+  let { y } = activePiece;
 
   if (isPieceActive()) {
     activePiece.y++;
   } else {
     mapActivePieceToInactiveSquares();
     activePiece = pieceGenerator();
+  }
+}
+
+const deleteRow = (j) => {
+  for (let i = 0; i < BOARD_WIDTH; i++) {
+    delete inactiveSquares[`${i},${j}`];
   }
 }
 
@@ -87,12 +96,6 @@ const shiftDownAfterDelete = (j) => {
         delete inactiveSquares[`${i},${j}`]
       }
     }
-  }
-}
-
-const deleteRow = (j) => {
-  for (let i = 0; i < BOARD_WIDTH; i++) {
-    delete inactiveSquares[`${i},${j}`];
   }
 }
 
@@ -117,9 +120,25 @@ const checkGameOver = () => {
   }
 }
 
-const drawSquare = (ctx, x, y, color) => {
+const drawSquare = (ctx, x, y, colorA, colorB) => {
   ctx.beginPath();
-  ctx.fillStyle = color;
+  const grd = ctx.createLinearGradient(
+    (x) * POS_TO_PIXEL,
+    (y) * POS_TO_PIXEL,
+    (x) * POS_TO_PIXEL + POS_TO_PIXEL,
+    (y) * POS_TO_PIXEL + POS_TO_PIXEL
+  );
+  grd.addColorStop(0, colorA);
+  grd.addColorStop(1, colorB);
+  ctx.fillStyle = grd;
+  ctx.lineWidth = '1';
+  ctx.strokeStyle = '#000000';
+  ctx.rect(
+    (x) * POS_TO_PIXEL,
+    (y) * POS_TO_PIXEL,
+    POS_TO_PIXEL,
+    POS_TO_PIXEL
+  );
   ctx.fillRect(
     (x) * POS_TO_PIXEL,
     (y) * POS_TO_PIXEL,
@@ -129,20 +148,40 @@ const drawSquare = (ctx, x, y, color) => {
   ctx.stroke();
 }
 
-const renderGame = (ctx) => {
+const drawBoard = (ctx) => {
   ctx.clearRect(0, 0, BOARD_WIDTH * POS_TO_PIXEL, BOARD_HEIGHT * POS_TO_PIXEL)
+  ctx.beginPath();
+  const grd = ctx.createLinearGradient(
+    0,
+    0,
+    0,
+    BOARD_HEIGHT * POS_TO_PIXEL
+  );
+  grd.addColorStop(0, '#FFFFFF');
+  grd.addColorStop(1, '#D3D3D3');
+  ctx.fillStyle = grd;
+  ctx.fillRect(
+    0,
+    0,
+    BOARD_WIDTH * POS_TO_PIXEL,
+    BOARD_HEIGHT * POS_TO_PIXEL
+  )
+  ctx.stroke();
+}
 
-  const { x, y, color, orientation, position } = activePiece;
+const renderGame = (ctx) => {
+  drawBoard(ctx);
+  const { x, y, colorA, colorB, orientation, position } = activePiece;
 
   position[orientation].forEach(square => {
     const [i, j] = square;
-    drawSquare(ctx, x + i, y + j, color)
+    drawSquare(ctx, x + i, y + j, colorA, colorB)
   })
 
   for (let key in inactiveSquares) {
     const [i, j] = key.split(',').map(num => Number(num))
-    const color = inactiveSquares[key];
-    drawSquare(ctx, i, j, color)
+    const { colorA, colorB } = inactiveSquares[key];
+    drawSquare(ctx, i, j, colorA, colorB)
   }
 
   window.requestAnimationFrame(() => {

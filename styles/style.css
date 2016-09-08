@@ -1,3 +1,8 @@
+body, html {
+  background-color: #2A2A2A;
+}
+
 #myCanvas {
-  border: 1px solid black;
+  display: block;
+  margin: auto auto;
 }

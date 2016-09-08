@@ -1,33 +1,38 @@
 const pieces = [
   {
-    color: 'blue',
+    colorA: '#2C35A1',
+    colorB: '#474FB3',
     position: [
       [[0, -1], [0, 0], [0, 1], [0, 2]],
       [[-1, 0], [0, 0], [1, 0], [2, 0]],
     ],
   },
   {
-    color: 'yellow',
+    colorA: '#FFF14C',
+    colorB: '#FFF68F',
     position: [
       [[0, 0], [0, 1], [1, 0], [1, 1]],
     ],
   },
   {
-    color: 'red',
+    colorA: '#E92A25',
+    colorB: '#FF514C',
     position: [
       [[-1, -1], [0, -1], [0, 0], [1, 0]],
       [[0, 1], [0, 0], [1, 0], [1, -1]],
     ],
   },
   {
-    color: 'green',
+    colorA: '#1DB727',
+    colorB: '#3CCA45',
     position: [
       [[-1, 0], [0, 0], [0, -1], [1, -1]],
       [[1, 1], [1, 0], [0, 0], [0, -1]],
     ],
   },
   {
-    color: 'cyan',
+    colorA: '#17888D',
+    colorB: '#2F989D',
     position: [
       [[-1, -1], [-1, 0], [0, 0], [1, 0]],
       [[0, 1], [0, 0], [0, -1], [1, -1]],
@@ -36,7 +41,8 @@ const pieces = [
     ],
   },
   {
-    color: 'orange',
+    colorA: '#E97E25',
+    colorB: '#FF9D4C',
     position: [
       [[-1, 0], [0, 0], [1, 0], [1, -1]],
       [[0, -1], [0, 0], [0, 1], [1, 1]],
@@ -45,7 +51,8 @@ const pieces = [
     ],
   },
   {
-    color: 'purple',
+    colorA: '#5C249E',
+    colorB: '#713EAF',
     position: [
       [[-1, 0], [0, 0], [1, 0], [0, -1]],
       [[0, -1], [0, 0], [0, 1], [1, 0]],
