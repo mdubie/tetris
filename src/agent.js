@@ -105,12 +105,10 @@ const moveTowardsNextLocation = () => {
 };
 
 window.setInterval(() => {
-  if (agentPlaying) {
-    if (isNewActivePiece) {
-      isNewActivePiece = false;
-      target = selectNextLocation();
-    } else {
-      moveTowardsNextLocation();
-    }
+  if (isNewActivePiece) {
+    isNewActivePiece = false;
+    target = selectNextLocation();
+  } else {
+    moveTowardsNextLocation();
   }
 }, AGENT_SPEED);

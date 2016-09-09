@@ -2,8 +2,7 @@ let activePiece = {};
 let nextPiece = {};
 let inactiveSquares = {};
 let isNewActivePiece = true;
-let agentPlaying = true;
-let GAMESPEED = 1000 / 45;
+let score = 0;
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 24;
@@ -14,6 +13,7 @@ const PIECE_START_X = 5;
 const PIECE_START_Y = -2;
 const PIECE_START_ORIENTATION = 0;
 const GAMEOVER_CEILING = 2;
+const GAMESPEED = 1000 / 45;
 
 const pieceGenerator = () => {
   const piece = pieces[Math.floor(Math.random() * pieces.length)];
@@ -83,6 +83,7 @@ const updateActivePiece = () => {
     mapActivePieceToInactiveSquares();
     activePiece = nextPiece;
     nextPiece = pieceGenerator();
+    score++;
     isNewActivePiece = true;
   }
 };
@@ -121,6 +122,7 @@ const checkGameOver = () => {
   for (let i = 0; i < BOARD_WIDTH; i++) {
     if (inactiveSquares[`${i},${GAMEOVER_CEILING}`]) {
       inactiveSquares = {};
+      score = 0;
     }
   }
 };
@@ -199,9 +201,14 @@ const renderNextPiece = (ctxNext) => {
   });
 };
 
+const renderScoreBoard = () => {
+  document.getElementById('score').innerHTML = score;
+};
+
 const renderGame = (ctx, ctxNext) => {
   renderBoard(ctx);
   renderNextPiece(ctxNext);
+  renderScoreBoard();
   window.requestAnimationFrame(() => {
     renderGame(ctx, ctxNext);
   });
@@ -213,12 +220,6 @@ document.addEventListener('DOMContentLoaded', () => {
   activePiece = pieceGenerator();
   nextPiece = pieceGenerator();
   renderGame(ctx, ctxNext);
-
-  document.addEventListener('keydown', (event) => {
-    moveActivePiece(event.key);
-    agentPlaying = false;
-    GAMESPEED = 1000 / 10;
-  });
 
   window.setInterval(() => {
     updateActivePiece();
