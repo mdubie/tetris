@@ -1,8 +1,21 @@
 body, html {
+  display: flex;
   background-color: #2A2A2A;
+  justify-content: space-between;
+  flex-flow: row;
 }
 
 #myCanvas {
   display: block;
   margin: auto auto;
+}
+
+#scoreboard {
+  width: 250px;
+  height: 250px;
+}
+
+#nextpiece {
+  width: 250px;
+  height: 250px;
 }
