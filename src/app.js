@@ -1,5 +1,6 @@
 let activePiece = {};
 let nextPiece = {};
+let target = {};
 let inactiveSquares = {};
 let isNewActivePiece = true;
 let score = 0;
@@ -13,7 +14,7 @@ const PIECE_START_X = 5;
 const PIECE_START_Y = -2;
 const PIECE_START_ORIENTATION = 0;
 const GAMEOVER_CEILING = 2;
-const GAMESPEED = 1000 / 45;
+const GAMESPEED = 1000 / 60;
 
 const pieceGenerator = () => {
   const piece = pieces[Math.floor(Math.random() * pieces.length)];
@@ -190,6 +191,12 @@ const renderBoard = (ctx) => {
       drawSquare(ctx, i, j, colorA, colorB);
     }
   }
+  // if (target.position) {
+  //   target.position[target.orientation].forEach(square => {
+  //     const [i, j] = square;
+  //     drawSquare(ctx, target.x + i, target.y + j, '#DDD', '#FFF');
+  //   });
+  // }
 };
 
 const renderNextPiece = (ctxNext) => {
