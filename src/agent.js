@@ -1,4 +1,4 @@
-const AGENT_SPEED = 1000 / 45;
+const AGENT_SPEED = 1000 / 180;
 let target = {};
 
 const pointParamsToPoints = (params) => {
