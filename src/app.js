@@ -3,7 +3,7 @@ let nextPiece = {};
 let inactiveSquares = {};
 let isNewActivePiece = true;
 let agentPlaying = true;
-let GAMESPEED = 1000 / 180;
+let GAMESPEED = 1000 / 400;
 
 const BOARD_WIDTH = 10;
 const BOARD_HEIGHT = 24;
